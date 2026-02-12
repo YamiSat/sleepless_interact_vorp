@@ -12,7 +12,7 @@ This is a port of the original **sleepless_interact** for FiveM, now fully compa
 
 ## 📃 Documentation
 Since this is a fork, you can refer to the original logic here, but keep in mind the triggers have been adapted for RedM:
-- [V2 Documentation](https://sleeplessdevelopment.dev/interactv)
+- [V2 Documentation](https://sleeplessdevelopment.dev/interact)
 
 ## ⚙️ Requirements
 * [VORP Core](https://github.com/VORP-Core/vorp_core)
