@@ -1,21 +1,24 @@
-# sleepless_interact
+# sleepless_interact - VORP Core Edition
 
-A FiveM library for creating 3D DUI world interactions
+A RedM library for creating 3D DUI world interactions, adapted for the VORP Core framework.
 
-![](https://img.shields.io/github/downloads/Sleepless-Development/sleepless_interact/total?logo=github)
-![](https://img.shields.io/github/downloads/Sleepless-Development/sleepless_interact/latest/total?logo=github)
-![](https://img.shields.io/github/contributors/Sleepless-Development/sleepless_interact?logo=github)
-![](https://img.shields.io/github/v/release/Sleepless-Development/sleepless_interact?logo=github)
+## 💡 About this Fork
+This is a port of the original **sleepless_interact** for FiveM, now fully compatible with **VORP Core** in RedM. It allows developers to create immersive 3D interactions within the game world.
 
-
-## thanks
-v2 uses a lot of code from ox_target to help ensure feature parity. so a big thanks to linden for that. [ox_target](https://github.com/overextended/ox_target)
+## ❤️ Credits & Thanks
+* **Original Creator:** A huge thanks to **[Sleepless-Development](https://github.com/Sleepless-Development)** for the original resource and the innovative use of 3D DUI interactions.
+* **Ox Target:** As in v2, thanks to **Linden** and the [ox_target](https://github.com/overextended/ox_target) team for the logic that ensures feature parity.
+* **Adaptation:** Adapted for VORP Core by YamiSat.
 
 ## 📃 Documentation
+Since this is a fork, you can refer to the original logic here, but keep in mind the triggers have been adapted for RedM:
+- [V2 Documentation](https://sleeplessdevelopment.dev/interactv2)
 
-- [V1](https://sleeplessdevelopment.dev/interactv1)
-- [V2](https://sleeplessdevelopment.dev/interactv2)
+## ⚙️ Requirements
+* [VORP Core](https://github.com/VORP-Core/vorp_core)
+* RedM Server Build 1491 or higher (Recommended)
 
-## 💾 Download
-
-[seleepless_interact.zip](https://github.com/Sleepless-Development/sleepless_interact/releases/latest/download/sleepless_interact.zip)
+## 💾 Installation
+1. Download the latest release.
+2. Place the `sleepless_interact` folder into your `resources` directory.
+3. Add `ensure sleepless_interact` to your `server.cfg` after the VORP dependencies.
