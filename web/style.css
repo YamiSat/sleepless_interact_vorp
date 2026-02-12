@@ -1,0 +1,281 @@
+@import url('https://fonts.googleapis.com/css2?family=Rye&family=IM+Fell+English+SC&family=Playfair+Display:wght@400;700&display=swap');
+
+:root {
+    --black: #0a0a0a;
+    --dark-gray: #1a1a1a;
+    --yellow: #ffd700;
+    --yellow-bright: #ffed4a;
+    --white: #ffffff;
+    --gray: #666666;
+    --ui-scale: 0.8; /* Scale UI (1 = 100%). Set to 0.5 for half size */
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    visibility: hidden;
+    user-select: none;
+    white-space: nowrap;
+    margin: 0;
+    overflow: hidden;
+    color: var(--white);
+    transition: opacity 300ms cubic-bezier(0.25, 0.46, 0.45, 0.94), 
+                transform 500ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    font-family: 'IM Fell English SC', serif;
+}
+
+/* Root wrapper for UI scaling. We prefer zoom (works in CEF/Chromium) and provide
+   a transform fallback. Using a wrapper avoids clobbering body transforms/animations. */
+#ui-root {
+    /* Primary: use zoom where available for crisp scaling */
+    zoom: var(--ui-scale);
+    /* Fallback: transform + compensating dimensions to preserve viewport layout */
+    -webkit-transform: scale(var(--ui-scale));
+    transform: scale(var(--ui-scale));
+    transform-origin: top left;
+    width: calc(100% / var(--ui-scale));
+    height: calc(100% / var(--ui-scale));
+}
+
+body.fade-out {
+    opacity: 0;
+    transform: scale(0.95) translateY(-20px);
+}
+
+#container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5rem;
+    animation: container-pulse 4s ease-in-out infinite;
+}
+
+#interact-container {
+    width: 3.2rem;
+    height: 3.3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--black);
+    border: 2px solid var(--yellow);
+    border-radius: 10%;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3), inset 0 0 15px rgba(255, 215, 0, 0.1);
+    animation: pulse 3s ease-in-out infinite, float 6s ease-in-out infinite;
+}
+
+#interact-container:hover {
+    transform: scale(1.15) rotate(5deg);
+    box-shadow: 0 0 40px rgba(255, 215, 0, 0.6), inset 0 0 30px rgba(255, 215, 0, 0.3);
+    border-color: var(--yellow-bright);
+    animation-play-state: paused;
+}
+
+#interact-progress {
+    position: absolute;
+    width: 100%;
+    height: 0%;
+    bottom: 0;
+    left: 0;
+    background: linear-gradient(to top, var(--yellow), var(--yellow-bright));
+    border-radius: 0 0 10% 10%;
+    transition: height 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+#interact-key {
+    font-size: 1.8rem;
+    color: var(--yellow);
+    font-family: 'Rye', cursive;
+    z-index: 2;
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    animation: glow 2s ease-in-out infinite alternate;
+}
+
+#interact-container:hover #interact-key {
+    color: var(--yellow-bright);
+    text-shadow: 0 0 20px rgba(255, 215, 0, 0.9);
+    transform: scale(1.1);
+}
+
+#options-wrapper {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    translate: 15% -50%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    min-width: 280px;
+}
+
+.option-container {
+    background: rgba(10, 10, 10, 0.9);
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    border-left: 4px solid transparent;
+    color: var(--white);
+    display: flex;
+    align-items: center;
+    padding: 0.5rem 2rem;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    position: relative;
+    overflow: hidden;
+
+}
+
+.option-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.15), transparent);
+    transition: left 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 1;
+}
+
+.option-container:hover::before {
+    left: 100%;
+}
+
+.option-container:hover {
+    background: rgba(255, 215, 0, 0.1);
+    border-color: rgba(255, 215, 0, 0.5);
+    border-left-color: var(--yellow);
+    transform: translateX(12px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(255, 215, 0, 0.2);
+}
+
+.option-container.highlighted {
+    background: rgba(255, 215, 0, 0.35);
+    border-color: var(--yellow);
+    border-left-color: var(--yellow-bright);
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+    transform: translateX(16px) scale(1.03);
+    animation: highlight-pulse 2s ease-in-out infinite;
+}
+
+.animated-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--yellow), var(--yellow-bright));
+    transition: width 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 1;
+}
+
+.option-container.highlighted .animated-background {
+    width: 4px;
+    animation: bg-shimmer 1.5s ease-in-out infinite;
+}
+
+.option-icon {
+    font-size: 1.2rem;
+    color: var(--yellow);
+    margin-right: 1rem;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    z-index: 2;
+    position: relative;
+}
+
+.option-container:hover .option-icon,
+.option-container.highlighted .option-icon {
+    color: var(--yellow-bright);
+    transform: scale(1.2) rotate(10deg);
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+}
+
+.option-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.05rem;
+    text-transform: uppercase;
+    color: var(--white); /* Force label text to white by default */
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 2;
+    position: relative;
+}
+
+.option-container:hover .option-label,
+.option-container.highlighted .option-label {
+    /* Keep label color white even when hovered/highlighted */
+    color: var(--white);
+    /* remove yellow glow so labels stay crisp white */
+    text-shadow: none;
+}
+
+/* Enhanced Keyframe Animations */
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 0 15px rgba(255, 215, 0, 0.3), inset 0 0 15px rgba(255, 215, 0, 0.1);
+        transform: scale(1);
+    }
+    25% {
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.4), inset 0 0 20px rgba(255, 215, 0, 0.15);
+        transform: scale(1.02);
+    }
+    50% {
+        box-shadow: 0 0 25px rgba(255, 215, 0, 0.6), inset 0 0 25px rgba(255, 215, 0, 0.2);
+        transform: scale(1.05);
+    }
+    75% {
+        box-shadow: 0 0 20px rgba(255, 215, 0, 0.4), inset 0 0 20px rgba(255, 215, 0, 0.15);
+        transform: scale(1.02);
+    }
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+}
+
+@keyframes glow {
+    0% { text-shadow: 0 0 10px rgba(255, 215, 0, 0.5); }
+    100% { text-shadow: 0 0 20px rgba(255, 215, 0, 0.8), 0 0 30px rgba(255, 215, 0, 0.4); }
+}
+
+@keyframes highlight-pulse {
+    0%, 100% { 
+        box-shadow: 0 0 30px rgba(255, 215, 0, 0.4);
+        border-left-color: var(--yellow-bright);
+    }
+    50% { 
+        box-shadow: 0 0 40px rgba(255, 215, 0, 0.6);
+        border-left-color: var(--yellow);
+    }
+}
+
+@keyframes bg-shimmer {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+@keyframes container-pulse {
+    0%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+        filter: drop-shadow(0 0 10px rgba(255, 215, 0, 0.2));
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.02);
+        filter: drop-shadow(0 0 20px rgba(255, 215, 0, 0.4));
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #container { flex-direction: column; gap: 2rem; }
+    #options-wrapper { min-width: 250px; }
+    .option-container { padding: 0.8rem 1rem; }
+    #interact-container { width: 3.5rem; height: 3.5rem; }
+    #interact-key { font-size: 1.5rem; }
+}
